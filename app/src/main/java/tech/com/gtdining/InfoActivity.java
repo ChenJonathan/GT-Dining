@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Calendar;
+
 public class InfoActivity extends Activity {
 
-    private int diningHall;
+    private String menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +18,13 @@ public class InfoActivity extends Activity {
         setContentView(R.layout.activity_info);
 
         Intent intent = getIntent();
-        diningHall = intent.getIntExtra("Dining Hall", 0);
+        int diningHall = intent.getIntExtra("Dining Hall", 0);
+
+        //Calendar c = Calendar.getInstance();
+        //c.set(year, month, day);
+        //int day = c.get(Calendar.DAY_OF_WEEK);
+
+        //menu = getMenu(diningHall, day);
     }
 
     @Override
@@ -39,5 +47,9 @@ public class InfoActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getMenu(int diningHall, int day) {
+        return "";
     }
 }
