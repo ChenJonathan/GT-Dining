@@ -7,9 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import java.util.Calendar;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
+    Calendar c = Calendar.getInstance();
     ImageButton imageButton1;
     ImageButton imageButton2;
     ImageButton imageButton3;
@@ -22,21 +24,69 @@ public class MainActivity extends Activity implements View.OnClickListener {
         getActionBar().setTitle("GT Dining Halls");
 
         intent = new Intent(this, InfoActivity.class);
+    }
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
         imageButton1 = (ImageButton)findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(this);
+
+        if(isClosed("Brittain")) {
+            imageButton1.setImageResource(R.drawable.brittainclosed);
+        }
 
         imageButton2 = (ImageButton)findViewById(R.id.imageButton2);
         imageButton2.setOnClickListener(this);
 
+        if(isClosed("North Ave")) {
+            imageButton2.setImageResource(R.drawable.northaveclosed);
+        }
+
         imageButton3 = (ImageButton)findViewById(R.id.imageButton3);
         imageButton3.setOnClickListener(this);
+
+        if(isClosed("Woody's")) {
+            imageButton3.setImageResource(R.drawable.woodysclosed);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public boolean isClosed(String diningHall) {
+        int day = c.get(Calendar.DAY_OF_WEEK);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        if(diningHall.equals("Brittain")) {
+            if(day == 1 && hour >= 16 && hour <=20) {
+                return false; //open
+            } else if(day > 1 && day < 6 && hour >= 7 && hour <= 20) {
+                return false;
+            } else if(day == 6 && hour >= 7 && hour <= 15) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } else if(diningHall.equals("North Ave") || diningHall.equals("Woody's")) {
+            if(day == 1 && ((hour >= 10 && hour <=24) || (hour >= 0 && hour <=2))) {
+                return false; //open
+            } else if(day > 1 && day < 6 && ((hour >= 7 && hour <=24) || (hour >= 0 && hour <=2))) {
+                return false;
+            } else if(day == 6 && hour >= 7 && hour <= 22) {
+                return false;
+            } else if(day == 7 && hour >= 10 && hour <= 22) {
+                return false;
+            } else {
+                return true;
+            }
+
+        }
         return true;
     }
 
