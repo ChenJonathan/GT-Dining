@@ -6,13 +6,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class InfoActivity extends Activity implements View.OnClickListener {
 
-    private String menu;
+    private ListView listView;
 
+    private ArrayList<String> menu;
+
+    private int diningHall;
     private int day;
     private int meal;
 
@@ -20,14 +26,23 @@ public class InfoActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+        getActionBar().setTitle("Menu Information");
 
         Intent intent = getIntent();
-        int diningHall = intent.getIntExtra("Dining Hall", 0);
+        diningHall = intent.getIntExtra("Dining Hall", 0);
 
         Calendar cal = Calendar.getInstance();
         day = cal.get(Calendar.DAY_OF_WEEK);
 
-        menu = getMenu(diningHall, day);
+        updateMenu();
+
+        listView = (ListView)findViewById(R.id.listView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                menu );
+
+        listView.setAdapter(arrayAdapter);
     }
 
     @Override
@@ -52,12 +67,49 @@ public class InfoActivity extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    public String getMenu(int diningHall, int day) {
-        return "";
+    public ArrayList<String> getMenu(int diningHall, int day, int meal) {
+        return new ArrayList<String>();
     }
 
     @Override
     public void onClick(View v) {
+        switch(v.getId())
+        {
+            case R.id.sundayButton:
+                day = 1;
+                break;
+            case R.id.mondayButton:
+                day = 2;
+                break;
+            case R.id.tuesdayButton:
+                day = 3;
+                break;
+            case R.id.wednesdayButton:
+                day = 4;
+                break;
+            case R.id.thursdayButton:
+                day = 5;
+                break;
+            case R.id.fridayButton:
+                day = 6;
+                break;
+            case R.id.saturdayButton:
+                day = 7;
+                break;
+            case R.id.breakfastButton:
+                meal = 1;
+                break;
+            case R.id.lunchButton:
+                meal = 2;
+                break;
+            case R.id.dinnerButton:
+                meal = 3;
+                break;
+        }
+        updateMenu();
+    }
 
+    public void updateMenu() {
+        menu = getMenu(diningHall, day, meal);
     }
 }

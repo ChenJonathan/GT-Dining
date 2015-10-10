@@ -67,18 +67,25 @@
             android:id="@+id/breakfastButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.333"></ImageButton>
+            android:layout_weight="0.25"></ImageButton>
 
         <ImageButton
             android:id="@+id/lunchButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.333"></ImageButton>
+            android:layout_weight="0.25"></ImageButton>
 
         <ImageButton
             android:id="@+id/dinnerButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.333"></ImageButton>
+            android:layout_weight="0.25"></ImageButton>
     </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/mealSelect"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>
