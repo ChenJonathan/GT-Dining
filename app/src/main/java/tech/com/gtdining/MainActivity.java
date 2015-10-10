@@ -13,11 +13,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     ImageButton imageButton1;
     ImageButton imageButton2;
     ImageButton imageButton3;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        intent = new Intent(this, InfoActivity.class);
 
         imageButton1 = (ImageButton)findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(this);
@@ -65,6 +68,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 diningHall = 3;
                 break;
         }
-        
+        intent.putExtra("Dining Hall", diningHall);
+        startActivity(intent);
     }
 }
