@@ -1,16 +1,32 @@
 package tech.com.gtdining;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
+
+    ImageButton imageButton1;
+    ImageButton imageButton2;
+    ImageButton imageButton3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        imageButton1 = (ImageButton)findViewById(R.id.imageButton1);
+        imageButton1.setOnClickListener(this);
+
+        imageButton2 = (ImageButton)findViewById(R.id.imageButton2);
+        imageButton2.setOnClickListener(this);
+
+        imageButton3 = (ImageButton)findViewById(R.id.imageButton3);
+        imageButton3.setOnClickListener(this);
     }
 
     @Override
@@ -33,5 +49,22 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int diningHall = 0;
+        switch(v.getId()) {
+            case R.id.imageButton1:
+                diningHall = 1;
+                break;
+            case R.id.imageButton2:
+                diningHall = 2;
+                break;
+            case R.id.imageButton3:
+                diningHall = 3;
+                break;
+        }
+        
     }
 }
