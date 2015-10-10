@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/britian"
+        android:src="@drawable/brittianopen2"
         />
 
     <ImageButton
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/northave"
+        android:src="@drawable/northaveopen2"
         />
 
     <ImageButton
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/woodys"
+        android:src="@drawable/woodysopen2"
         />
 
 </LinearLayout>
