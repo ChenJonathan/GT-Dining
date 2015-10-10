@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Calendar;
 
-public class InfoActivity extends Activity {
+public class InfoActivity extends Activity implements View.OnClickListener {
 
     private String menu;
+
+    private int day;
+    private int meal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +24,10 @@ public class InfoActivity extends Activity {
         Intent intent = getIntent();
         int diningHall = intent.getIntExtra("Dining Hall", 0);
 
-        //Calendar c = Calendar.getInstance();
-        //c.set(year, month, day);
-        //int day = c.get(Calendar.DAY_OF_WEEK);
+        Calendar cal = Calendar.getInstance();
+        day = cal.get(Calendar.DAY_OF_WEEK);
 
-        //menu = getMenu(diningHall, day);
+        menu = getMenu(diningHall, day);
     }
 
     @Override
@@ -51,5 +54,10 @@ public class InfoActivity extends Activity {
 
     public String getMenu(int diningHall, int day) {
         return "";
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
