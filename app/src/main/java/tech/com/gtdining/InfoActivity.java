@@ -13,7 +13,9 @@ public class InfoActivity extends Activity implements View.OnClickListener {
 
     private String menu;
 
+    private int diningHall;
     private int day;
+    private int hour;
     private int meal;
 
     @Override
@@ -22,13 +24,29 @@ public class InfoActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_info);
 
         Intent intent = getIntent();
-        int diningHall = intent.getIntExtra("Dining Hall", 0);
+        diningHall = intent.getIntExtra("Dining Hall", 0);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         Calendar cal = Calendar.getInstance();
         day = cal.get(Calendar.DAY_OF_WEEK);
+        hour = cal.get(Calendar.HOUR_OF_DAY);
 
-        menu = getMenu(diningHall, day);
+        if(hour <= 11) {
+            meal = 1;
+        } else if(diningHall == 1 && hour > 11 && hour <= 16) {
+            meal = 2;
+        } else {
+            meal = 3;
+        }
+
+        menu = getMenu(diningHall, day, meal);
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,7 +70,7 @@ public class InfoActivity extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    public String getMenu(int diningHall, int day) {
+    public String getMenu(int diningHall, int day, int meal) {
         return "";
     }
 
