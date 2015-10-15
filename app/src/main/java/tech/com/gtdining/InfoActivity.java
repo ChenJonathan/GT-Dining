@@ -3,31 +3,27 @@ package tech.com.gtdining;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class InfoActivity extends Activity implements View.OnClickListener {
-
-    private ListView listView;
 
     private ArrayList<String> menu;
 
     private int diningHall;
     private int day;
-    private int hour;
     private int meal;
 
     @Override
@@ -38,7 +34,6 @@ public class InfoActivity extends Activity implements View.OnClickListener {
 
         Intent intent = getIntent();
         diningHall = intent.getIntExtra("Dining Hall", 0);
-
     }
 
     @Override
@@ -46,7 +41,7 @@ public class InfoActivity extends Activity implements View.OnClickListener {
         super.onResume();
         Calendar cal = Calendar.getInstance();
         day = cal.get(Calendar.DAY_OF_WEEK);
-        hour = cal.get(Calendar.HOUR_OF_DAY);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
 
         if(hour <= 11) {
             meal = 1;
@@ -57,11 +52,9 @@ public class InfoActivity extends Activity implements View.OnClickListener {
         }
 
         updateMenu();
-        while(menu == null) {
-        }
 
-        listView = (ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        ListView listView = (ListView)findViewById(R.id.listView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 menu );
@@ -131,50 +124,45 @@ public class InfoActivity extends Activity implements View.OnClickListener {
     }
 
     public void updateMenu() {
-        System.out.println(diningHall + " " + day + " " + meal);
         menu = getMenu(diningHall, day, meal);
     }
 
     public ArrayList<String> getMenu(int diningHall, int day, int meal) {
-        try {
+        try{
             String[] days = {" SUNDAY ", " MONDAY "," TUESDAY ", " WEDNESDAY ", " THURSDAY ", " FRIDAY ", " SATURDAY "};
-            ArrayList<String> breakfast = new ArrayList<String>();
-            ArrayList<String> lunch = new ArrayList<String>();
-            ArrayList<String> dinner = new ArrayList<String>();
-            ArrayList<String> lateNight = new ArrayList<String>();
+            ArrayList<String> breakfast = new ArrayList<>();
+            ArrayList<String> lunch = new ArrayList<>();
+            ArrayList<String> dinner = new ArrayList<>();
             boolean reading  = false;
             int substart, subend, counter = 0;
             URL myUrl = null;
             if(diningHall == 1)
-                myUrl = new URL("https://m.gatechdining.com/images/Brittain%2010.5_tcm252-82006.htm");
+                myUrl = new URL("https://m.gatechdining.com/dining-choices/resident/Brittain.html");
             else if(diningHall == 2)
-                myUrl = new URL("https://m.gatechdining.com/images/North%20Ave%2010.5_tcm252-11299.htm");
+                myUrl = new URL("https://m.gatechdining.com/dining-choices/resident/index.html");
             else if(diningHall == 3)
-                myUrl = new URL("https://m.gatechdining.com/images/Woody's10.5_tcm252-82063.htm");
+                myUrl = new URL("https://m.gatechdining.com/dining-choices/resident/woodruff.html");
             URLConnection myCon = myUrl.openConnection();
             InputStream myIS = myCon.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(myIS));
-            String line = null;
+            String line;
             while((line = br.readLine()) != null) {
-                if(line.indexOf(days[day-1]) > -1)
+                if(line.contains(days[day-1]))
                     reading = true;
                 if(day != 7) {
-                    if(line.indexOf(days[day]) > -1)
+                    if(line.contains(days[day]))
                         reading = false;
                 }
-                else if(day == 7)
-                    if(line.indexOf(days[1]) > -1)
-                        reading = false;
+                else if(line.contains(days[1]))
+                    reading = false;
                 if(reading){
-                    if(line.indexOf("mealname") > -1) {
-                        if(line.indexOf("BREAKFAST") != -1)
+                    if(line.contains("mealname")) {
+                        if(line.contains("BREAKFAST"))
                             counter = 1;
-                        else if(line.indexOf("LUNCH") != -1)
+                        else if(line.contains("LUNCH"))
                             counter = 2;
-                        else if(line.indexOf("DINNER") != -1)
+                        else if(line.contains("DINNER"))
                             counter = 3;
-                        else if(line.indexOf("LATE NIGHT") != -1)
-                            counter = 4;
                     }
                     substart = line.indexOf("onmouseout=\"pcls(this);\">") + 25;
                     subend = line.indexOf("span><img class=\"icon\"") -2;
@@ -185,8 +173,6 @@ public class InfoActivity extends Activity implements View.OnClickListener {
                             lunch.add(line.substring(substart,  subend));
                         else if (counter == 3)
                             dinner.add(line.substring(substart, subend));
-                        else if (counter == 4)
-                            lateNight.add(line.substring(substart, subend));
                 }
             }
             if(meal == 1) {
@@ -198,13 +184,11 @@ public class InfoActivity extends Activity implements View.OnClickListener {
             else if(meal == 3) {
                 return dinner;
             }
-            else if(meal == 4) {
-                return lateNight;
-            }
         }
-        catch (Exception e) {}
-        ArrayList<String> array = new ArrayList<String>();
-        array.add("Empty menu");
-        return array;
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 }
