@@ -12,9 +12,11 @@ import java.util.Calendar;
 public class MainActivity extends Activity implements View.OnClickListener {
 
     Calendar c = Calendar.getInstance();
+
     ImageButton imageButton1;
     ImageButton imageButton2;
     ImageButton imageButton3;
+
     Intent intent;
 
     @Override
@@ -30,6 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onResume() {
 
         super.onResume();
+
         imageButton1 = (ImageButton)findViewById(R.id.imageButton1);
         imageButton1.setOnClickListener(this);
 

@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.io.BufferedReader;
@@ -22,10 +22,23 @@ import java.util.Calendar;
 public class InfoActivity extends Activity implements View.OnClickListener {
 
     private ArrayList<String> menu;
+    private ArrayAdapter<String> arrayAdapter;
+    private boolean loading;
 
     private int diningHall;
     private int day;
     private int meal;
+
+    private ImageButton sundayButton;
+    private ImageButton mondayButton;
+    private ImageButton tuesdayButton;
+    private ImageButton wednesdayButton;
+    private ImageButton thursdayButton;
+    private ImageButton fridayButton;
+    private ImageButton saturdayButton;
+    private ImageButton breakfastButton;
+    private ImageButton lunchButton;
+    private ImageButton dinnerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +68,43 @@ public class InfoActivity extends Activity implements View.OnClickListener {
         updateMenu();
 
         ListView listView = (ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 menu );
 
         listView.setAdapter(arrayAdapter);
+
+        // Setting up buttons
+        sundayButton = (ImageButton)findViewById(R.id.sundayButton);
+        sundayButton.setOnClickListener(this);
+
+        mondayButton = (ImageButton)findViewById(R.id.mondayButton);
+        mondayButton.setOnClickListener(this);
+
+        tuesdayButton = (ImageButton)findViewById(R.id.tuesdayButton);
+        tuesdayButton.setOnClickListener(this);
+
+        wednesdayButton = (ImageButton)findViewById(R.id.wednesdayButton);
+        wednesdayButton.setOnClickListener(this);
+
+        thursdayButton = (ImageButton)findViewById(R.id.thursdayButton);
+        thursdayButton.setOnClickListener(this);
+
+        fridayButton = (ImageButton)findViewById(R.id.fridayButton);
+        fridayButton.setOnClickListener(this);
+
+        saturdayButton = (ImageButton)findViewById(R.id.saturdayButton);
+        saturdayButton.setOnClickListener(this);
+
+        breakfastButton = (ImageButton)findViewById(R.id.breakfastButton);
+        breakfastButton.setOnClickListener(this);
+
+        lunchButton = (ImageButton)findViewById(R.id.lunchButton);
+        lunchButton.setOnClickListener(this);
+
+        dinnerButton = (ImageButton)findViewById(R.id.dinnerButton);
+        dinnerButton.setOnClickListener(this);
     }
 
 
@@ -88,6 +132,7 @@ public class InfoActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        System.out.println("GG");
         switch(v.getId())
         {
             case R.id.sundayButton:
@@ -125,20 +170,22 @@ public class InfoActivity extends Activity implements View.OnClickListener {
     }
 
     public void updateMenu() {
+        System.out.println("loading");
+        loading = true;
         MenuUpdater updater = new MenuUpdater();
         updater.execute(diningHall, day, meal);
-        while(menu == null) {
+        while(loading) {}
+        if(arrayAdapter != null) {
+            arrayAdapter.clear();
+            arrayAdapter.addAll(menu);
+            arrayAdapter.notifyDataSetChanged();
         }
-    }
-
-    public void setMenu(ArrayList<String> menu) {
-        this.menu = menu;
     }
 
     public class MenuUpdater extends AsyncTask<Integer, Void, ArrayList<String>> {
         @Override
         protected ArrayList<String> doInBackground(Integer... nums) {
-            ArrayList<String> test = new ArrayList<>();
+            ArrayList<String> result = new ArrayList<>();
             try{
                 int diningHall = nums[0];
                 int day = nums[1];
@@ -193,37 +240,24 @@ public class InfoActivity extends Activity implements View.OnClickListener {
                     }
                 }
                 if(meal == 1) {
-                    test = breakfast;
-                    //return breakfast;
+                    result = breakfast;
                 }
                 else if(meal == 2) {
-                    test = lunch;
-                    //return lunch;
+                    result = lunch;
                 }
                 else if(meal == 3) {
-                    test = dinner;
-                    //return dinner;
+                    result = dinner;
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println(test);
-            return test;
+            menu = result;
+            loading = false;
+            return result;
         }
 
-        @Override
-        protected void onPostExecute (ArrayList<String> result) {
-            super.onPostExecute(result);
-            System.out.println("anal fuck this shittt");
-            System.out.println("12fuck this shittt");
-            System.out.println("12fuck this shittt");
-            System.out.println("12fuck this shittt");
-            System.out.println("12fuck this shittt");
-            setMenu(result);
-        }
-
-        public URL getLink(String diningUrl) {
+        private URL getLink(String diningUrl) {
             try {
                 URL myUrl = new URL(diningUrl);
                 URLConnection myCon = myUrl.openConnection();
@@ -234,7 +268,7 @@ public class InfoActivity extends Activity implements View.OnClickListener {
                 int substart = 0;
                 int subend = 0;
                 while ((line = br.readLine()) != null) {
-                    if (line.indexOf("<a href=\"/images") > -1) {
+                    if (line.contains("<a href=\"/images")) {
                         substart = line.indexOf("href=") + 6;
                         subend = line.indexOf("target=") - 2;
                         if (substart > -1 && subend > -1) {
@@ -245,8 +279,9 @@ public class InfoActivity extends Activity implements View.OnClickListener {
                         }
                     }
                 }
-                return null;
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
