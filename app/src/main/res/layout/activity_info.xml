@@ -16,43 +16,58 @@
             android:id="@+id/sundayButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.143"></ImageButton>
+            android:layout_weight="0.143"
+            android:adjustViewBounds="true"
+            android:src="@drawable/sun"
+            ></ImageButton>
 
         <ImageButton
             android:id="@+id/mondayButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.143"></ImageButton>
+            android:layout_weight="0.143"
+            android:adjustViewBounds="true"
+            android:src="@drawable/mon"></ImageButton>
 
         <ImageButton
             android:id="@+id/tuesdayButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.143"></ImageButton>
+            android:layout_weight="0.143"
+            android:adjustViewBounds="true"
+            android:src="@drawable/tues"></ImageButton>
 
         <ImageButton
             android:id="@+id/wednesdayButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.143"></ImageButton>
+            android:layout_weight="0.143"
+            android:adjustViewBounds="true"
+            android:src="@drawable/wed"></ImageButton>
 
         <ImageButton
             android:id="@+id/thursdayButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.143"></ImageButton>
+            android:layout_weight="0.143"
+            android:adjustViewBounds="true"
+            android:src="@drawable/thurs"></ImageButton>
 
         <ImageButton
             android:id="@+id/fridayButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.143"></ImageButton>
+            android:layout_weight="0.143"
+            android:adjustViewBounds="true"
+            android:src="@drawable/fri"></ImageButton>
 
         <ImageButton
             android:id="@+id/saturdayButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.143"></ImageButton>
+            android:layout_weight="0.143"
+            android:adjustViewBounds="true"
+            android:src="@drawable/sat"></ImageButton>
     </LinearLayout>
 
     <LinearLayout
@@ -67,19 +82,28 @@
             android:id="@+id/breakfastButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.25"></ImageButton>
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/breakfast3"></ImageButton>
 
         <ImageButton
             android:id="@+id/lunchButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.25"></ImageButton>
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/lunch3"></ImageButton>
 
         <ImageButton
             android:id="@+id/dinnerButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="0.25"></ImageButton>
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dinner3"></ImageButton>
     </LinearLayout>
 
     <ListView
